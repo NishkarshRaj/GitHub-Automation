@@ -32,22 +32,20 @@ public class MidSem
 		driver = new ChromeDriver();
 		driver.navigate().to("https://github.com/login");
 		driver.manage().window().maximize();
-		/*
-		//Assertions
-		str = driver.findElement(By.xpath("//*[@id=\"ap_register_form\"]/div/div/h1")).getText();
-		Assert.assertTrue(str.contains("Create"));
-		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"continue\"]")).isEnabled());
-		str = driver.findElement(By.xpath("//*[@id=\"ap_register_form\"]/div/div/div[2]/div/label")).getText();
-		Assert.assertTrue(str.contains("Mobile"));
-		str = driver.findElement(By.xpath("//*[@id=\"ap_register_form\"]/div/div/div[3]/div/label")).getText();
-		Assert.assertTrue(str.contains("Email"));
-		str = driver.findElement(By.xpath("//*[@id=\"ap_register_form\"]/div/div/div[4]/div/label")).getText();
-		Assert.assertTrue(str.contains("Password"));
-		*/
 	}
-	@Test(dataProvider = "getData")
+	@Test(dataProvider = "getData",priority=1)
 	public void Login(String username, String password) 
 	{
+		//Assertions
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[1]/h1")).getText();
+		Assert.assertTrue(str.contains("Sign"));
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[1]")).getText();
+		Assert.assertTrue(str.contains("Username"));
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[2]")).getText();
+		Assert.assertTrue(str.contains("Password"));
+		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[9]")).isEnabled());
+				//Image check	/html/body/div[1]/div[2]/div/a/svg
+		
 		element = driver.findElement(By.name("login"));
 		element.sendKeys(username);
 		element = driver.findElement(By.name("password"));
@@ -64,6 +62,46 @@ public class MidSem
 	obj[2][0] = "raj123khare@gmail.com";
 	obj[2][1] = "Ni$hkar$H3";
 	return obj;
+	}
+	@Test(priority=2)
+	public void CreateRepository()
+	{
+		//Assertions for Login Page
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[1]/h1")).getText();
+		Assert.assertTrue(str.contains("Sign"));
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[1]")).getText();
+		Assert.assertTrue(str.contains("Username"));
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[2]")).getText();
+		Assert.assertTrue(str.contains("Password"));
+		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[9]")).isEnabled());
+		
+		//Login
+		element = driver.findElement(By.name("login"));
+		element.sendKeys("nishkarshraj000@gmail.com");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Nish123!@#");
+		driver.findElement(By.name("commit")).click();
+		
+		//Homepage Assertions
+		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[2]")).getText();
+		Assert.assertTrue(str.contains("Password"));
+		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[9]")).isEnabled());
+		
+		//Create Repository
+		driver.findElement(By.xpath("/html/body/div[4]/div/aside[1]/div[2]/div[1]/div/h2/a")).click();		
+		element = driver.findElement(By.xpath("//*[@id=\"repository_name\"]"));		
+		element.sendKeys("Test Automation");
+		driver.findElement(By.xpath("//*[@id=\"new_repository\"]/div[3]/button")).submit();	
+	
+		//Add Default file to make the repository forkable because empty repository cannot be forked
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[1]/div[1]/p/a[1]")).click();
+		//File name
+		element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[1]/span/input"));		
+		element.sendKeys("README.md");
+		//Content
+		element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[5]/div[2]/div/div[5]/div[1]/div/div/div/div[5]/div/pre"));		
+		element.sendKeys("Default Content");
+		driver.findElement(By.xpath("//*[@id=\"submit-file\"]")).click();				
 	}
   @AfterMethod
  	public void Destructor()
