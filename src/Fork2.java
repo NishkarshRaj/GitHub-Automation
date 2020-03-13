@@ -22,7 +22,5 @@ public class Fork2
 		driver.navigate().to("https://github.com/Nishkarsh007/Test-Automation");
 		//Fork the repository
 		driver.findElement(By.xpath("/html/body/div[4]/div/main/div[2]/div/ul/li[3]/form/button")).click();
-		//Create new branch
-		Thread.sleep(10000); // Wait till forking is completed - 10 seconds
 	}
 }
