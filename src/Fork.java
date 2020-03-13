@@ -21,8 +21,13 @@ public class Fork
 		//Navigate to repository to be forked
 		driver.navigate().to("https://github.com/Nishkarsh007/Test-Automation");
 		//Fork the repository
+		//driver.findElement(By.linkText("Fork")).click();
+		//Time Delay to interact
+		int i;
+		for(i=0;i<1000;i++)
+		{
+			//
+		}
 		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[2]/div/ul/li[3]/form/button")).click();
-		//Create new branch
-		Thread.sleep(10000); // Wait till forking is completed - 10 seconds
 	}
 }
