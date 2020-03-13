@@ -33,6 +33,7 @@ public class MidSem
 		driver.navigate().to("https://github.com/login");
 		driver.manage().window().maximize();
 	}
+	/*
 	@Test(dataProvider = "getData",priority=1)
 	public void Login(String username, String password) 
 	{
@@ -66,26 +67,12 @@ public class MidSem
 	@Test(priority=2)
 	public void CreateRepository()
 	{
-		//Assertions for Login Page
-		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[1]/h1")).getText();
-		Assert.assertTrue(str.contains("Sign"));
-		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[1]")).getText();
-		Assert.assertTrue(str.contains("Username"));
-		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[2]")).getText();
-		Assert.assertTrue(str.contains("Password"));
-		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[9]")).isEnabled());
-		
-		//Login
 		element = driver.findElement(By.name("login"));
 		element.sendKeys("nishkarshraj000@gmail.com");
 		element = driver.findElement(By.name("password"));
 		element.sendKeys("Nish123!@#");
 		driver.findElement(By.name("commit")).click();
 		
-		//Homepage Assertions
-		str = driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/label[2]")).getText();
-		Assert.assertTrue(str.contains("Password"));
-		Assert.assertTrue(driver.findElement(By.xpath("//*[@id=\"login\"]/form/div[4]/input[9]")).isEnabled());
 		
 		//Create Repository
 		driver.findElement(By.xpath("/html/body/div[4]/div/aside[1]/div[2]/div[1]/div/h2/a")).click();		
@@ -93,21 +80,134 @@ public class MidSem
 		element.sendKeys("Test Automation");
 		driver.findElement(By.xpath("//*[@id=\"new_repository\"]/div[3]/button")).submit();	
 	
+		
 		//Add Default file to make the repository forkable because empty repository cannot be forked
-		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[1]/div[1]/p/a[1]")).click();
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[2]/div/div[1]/div[1]/p/a[1]")).click();
 		//File name
-		element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[1]/span/input"));		
+		element = driver.findElement(By.name("filename"));		
 		element.sendKeys("README.md");
 		//Content
-		element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[5]/div[2]/div/div[5]/div[1]/div/div/div/div[5]/div/pre"));		
+		element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[2]/div/div/form[2]/div[5]/div[2]/div/div[5]/div[1]/div/div/div/div[5]/div/pre"));		
 		element.sendKeys("Default Content");
-		driver.findElement(By.xpath("//*[@id=\"submit-file\"]")).click();				
+		driver.findElement(By.id("submit-file")).click();				
 	}
+	*/
+	//Fork 1
+	@Test(priority=3)
+	public void Fork1()
+	{
+				element = driver.findElement(By.name("login"));
+		element.sendKeys("raj123khare@gmail.com");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Ni$hkar$H3");
+		driver.findElement(By.name("commit")).click();
+		
+		//Navigate to repository to be forked
+		driver.navigate().to("https://github.com/Nishkarsh007/Test-Automation");
+		//Fork the repository
+		//driver.findElement(By.linkText("Fork")).click();
+		//Time Delay to interact
+		int i;
+		for(i=0;i<10000;i++)
+		{
+			//
+		}
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[2]/div/ul/li[3]/form/button")).click();
+	}
+	/*
+	@Test(priority=5)
+	public void Fork2()
+	{
+		element = driver.findElement(By.name("login"));
+		element.sendKeys("MeghaRawat3");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Megh4@123");
+		driver.findElement(By.name("commit")).click();
+		
+		//Navigate to repository to be forked
+		driver.navigate().to("https://github.com/Nishkarsh007/Test-Automation");
+		//Fork the repository
+		int i;
+		for(i=0;i<10000;i++)
+		{
+			//
+		}
+		driver.findElement(By.xpath("/html/body/div[4]/div/main/div[2]/div/ul/li[3]/form/button")).click();
+	}
+	*/
+	/*
+	@Test(priority=4)
+	public void PR1()
+	{
+		element = driver.findElement(By.name("login"));
+		element.sendKeys("raj123khare@gmail.com");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Ni$hkar$H3");
+		driver.findElement(By.name("commit")).click();
+		
+		//Navigate to repository to be forked but commit to master branch rather than creating new branch
+				driver.navigate().to("https://github.com/RajBoss007/Test-Automation");
+				// Create new file in the new branch
+				driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[3]/div[2]/form/button")).click();
+				element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[1]/span/input"));
+				element.sendKeys("Feature.md");
+				element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[5]/div[2]/div/div[5]/div[1]/div/div/div/div[5]/div/pre"));
+				element.sendKeys("Default Content");
+				driver.findElement(By.xpath("//*[@id=\"submit-file\"]")).click();
+		
+		// the new branch with feature.md file is created
+		// Revisit the homepage of the repository to get access to PR button
+		//driver.navigate().to("https://github.com/RajBoss007/Test-Automation");
+		//Note, we assume patch 1 as the default branching mechanism! patch 2 even wont work
+		//driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[1]/ul/li[2]/a")).click(); //Open branches
+		
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[3]/a")).click();
+	}
+	
+	@Test(priority=6)
+	public void PR2()
+	{
+		element = driver.findElement(By.name("login"));
+		element.sendKeys("MeghaRawat3");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Megh4@123");
+		driver.findElement(By.name("commit")).click();
+		
+		//Navigate to repository to be forked but commit to master branch rather than creating new branch
+				driver.navigate().to("https://github.com/MeghaRawat3/Test-Automation");
+				// Create new file in the new branch
+				driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[3]/div[2]/form/button")).click();
+				element = driver.findElement(By.name("filename"));
+				element.sendKeys("Feature.md");
+				element = driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div/form[2]/div[5]/div[2]/div/div[5]/div[1]/div/div/div/div[5]/div/pre"));
+				element.sendKeys("Default Content");
+				driver.findElement(By.xpath("//*[@id=\"submit-file\"]")).click();
+		
+		// the new branch with feature.md file is created
+		// Revisit the homepage of the repository to get access to PR button
+		//driver.navigate().to("https://github.com/RajBoss007/Test-Automation");
+		//Note, we assume patch 1 as the default branching mechanism! patch 2 even wont work
+		//driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[1]/ul/li[2]/a")).click(); //Open branches
+		
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[3]/div/div[3]/a")).click();
+	}
+	@Test(priority=7)
+	public void MergePR()
+	{
+		element = driver.findElement(By.name("login"));
+		element.sendKeys("nishkarshraj000@gmail.com");
+		element = driver.findElement(By.name("password"));
+		element.sendKeys("Nish123!@#");
+		driver.findElement(By.name("commit")).click();
+		driver.navigate().to("https://github.com/Nishkarsh007/Test-Automation");
+		driver.findElement(By.xpath("//*[@id=\"js-repo-pjax-container\"]/div[1]/nav/span[3]/a/span[1]")).click();
+	}
+	*/
   @AfterMethod
  	public void Destructor()
  	{
 	  //Delete the current session
-	  driver.quit();
+	  //driver.quit();
  	}
   @AfterSuite
 	public void Completion()
