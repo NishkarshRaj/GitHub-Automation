@@ -1,5 +1,10 @@
 # GitHub-Automation
+
 Automating GitHub Workflow using Selenium and TestNG Framework
+
+## Workflow
+
+The project is written in TestNG framework using [Java](Main.java) to test GitHub website using Selenium
 
 ## How to Contribute
 
